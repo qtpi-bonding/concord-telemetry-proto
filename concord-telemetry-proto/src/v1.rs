@@ -74,6 +74,7 @@ pub enum Verification {
     ChallengeProof = 6,
     RootSignature = 7,
 }
+
 impl Principal {
     pub fn new(kind: PrincipalKind, id: impl Into<String>) -> Self {
         Self {

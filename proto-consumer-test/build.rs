@@ -13,7 +13,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .protoc_executable(&protoc)
         .file_descriptor_set_path(&descriptor)
         .extern_path(
-            ".concord_telemetry.v1",
+            concord_telemetry_proto::PROTO_PACKAGE_PATH,
             concord_telemetry_proto::RUST_EXTERN_PATH,
         )
         .compile_protos(&["proto/consumer/v1/events.proto"], &includes)?;
@@ -21,7 +21,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     pbjson_build::Builder::new()
         .register_descriptors(&std::fs::read(&descriptor)?)?
         .extern_path(
-            ".concord_telemetry.v1",
+            concord_telemetry_proto::PROTO_PACKAGE_PATH,
             concord_telemetry_proto::RUST_EXTERN_PATH,
         )
         .build(&[".consumer.v1"])?;
