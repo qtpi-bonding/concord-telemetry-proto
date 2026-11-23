@@ -1,0 +1,8 @@
+syntax = "proto3";
+package concord_telemetry.v1;
+// What caused a record: a registered cause kind and the id in its owner's own
+// format. The holder never parses id.
+message Cause {
+  string kind = 1;
+  string id = 2;
+}

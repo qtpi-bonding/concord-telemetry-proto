@@ -1,10 +1,10 @@
 [package]
 name = "concord-telemetry-proto"
-version = "0.2.0"
+version = "0.3.0"
 edition.workspace = true
 rust-version.workspace = true
 repository.workspace = true
-description = "The concord_telemetry.v1 wire types (Principal, TraceCarrier), their proto include path for build scripts, and the TRACEPARENT and BAGGAGE variable names"
+description = "The concord_telemetry.v1 wire types (Principal, TraceCarrier, Cause), their proto include path for build scripts, and the TRACEPARENT and BAGGAGE variable names"
 
 # No OpenTelemetry on purpose: a consumer's build.rs, or a crate that must stay
 # free of the OTel stack, uses this without pulling it. Build scripts only need

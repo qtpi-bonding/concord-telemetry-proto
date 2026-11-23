@@ -8,7 +8,7 @@ include!(concat!(env!("OUT_DIR"), "/consumer.v1.serde.rs"));
 #[cfg(test)]
 mod tests {
     use super::*;
-    use concord_telemetry_proto::v1::{Principal, PrincipalKind, Verification};
+    use concord_telemetry_proto::v1::{Cause, Principal, PrincipalKind, Verification};
     use prost::Message;
 
     #[test]
@@ -19,6 +19,7 @@ mod tests {
                 Principal::new(PrincipalKind::Agent, "k1")
                     .with_verified_by([Verification::ChallengeProof]),
             ),
+            ..Default::default()
         };
         assert_eq!(ThingHappened::decode(&ev.encode_to_vec()[..]).unwrap(), ev);
         let json = serde_json::to_value(&ev).unwrap();
@@ -26,6 +27,20 @@ mod tests {
             json["principal"]["verifiedBy"][0],
             "VERIFICATION_CHALLENGE_PROOF"
         );
+        assert_eq!(serde_json::from_value::<ThingHappened>(json).unwrap(), ev);
+    }
+
+    #[test]
+    fn cause_is_the_runtime_crates_type() {
+        let ev = ThingHappened {
+            source_record_id: "r1".into(),
+            principal: None,
+            causes: vec![Cause::new("turn", "T1")],
+            ..Default::default()
+        };
+        assert_eq!(ThingHappened::decode(&ev.encode_to_vec()[..]).unwrap(), ev);
+        let json = serde_json::to_value(&ev).unwrap();
+        assert_eq!(json["causes"][0]["kind"], "turn");
         assert_eq!(serde_json::from_value::<ThingHappened>(json).unwrap(), ev);
     }
 }

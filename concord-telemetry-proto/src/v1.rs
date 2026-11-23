@@ -4,6 +4,27 @@
 
 use crate::TraceCarrier as PlainTraceCarrier;
 
+/// `concord_telemetry.v1.Cause`: what caused a record. A registered cause kind
+/// and the id in its owner's own format; the holder never parses `id`.
+#[derive(Clone, PartialEq, Eq, Hash, ::prost::Message, serde::Serialize, serde::Deserialize)]
+pub struct Cause {
+    #[prost(string, tag = "1")]
+    #[serde(default)]
+    pub kind: String,
+    #[prost(string, tag = "2")]
+    #[serde(default)]
+    pub id: String,
+}
+
+impl Cause {
+    pub fn new(kind: impl Into<String>, id: impl Into<String>) -> Self {
+        Self {
+            kind: kind.into(),
+            id: id.into(),
+        }
+    }
+}
+
 /// `concord_telemetry.v1.TraceCarrier`.
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct TraceCarrier {

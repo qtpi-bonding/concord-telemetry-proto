@@ -2,8 +2,8 @@
 //! names the variable that carries trace context into a spawned process, for
 //! crates that must stay free of OpenTelemetry.
 //!
-//! The `concord_telemetry.v1` wire types (`Principal`, `TraceCarrier`) live in
-//! [`v1`]. This crate also says where `concord_telemetry/v1/principal.proto`
+//! The `concord_telemetry.v1` wire types (`Principal`, `TraceCarrier`, `Cause`)
+//! live in [`v1`]. This crate also says where `concord_telemetry/v1/principal.proto`
 //! lives, for consumers' build scripts. Add it under `[build-dependencies]`
 //! and pass [`proto_include_dir`] as a protoc include path, then point
 //! `extern_path(PROTO_PACKAGE_PATH, RUST_EXTERN_PATH)` at it, in prost and
@@ -51,6 +51,9 @@ pub const PRINCIPAL_PROTO: &str = include_str!("../proto/concord_telemetry/v1/pr
 /// The text of `trace_carrier.proto`.
 pub const TRACE_CARRIER_PROTO: &str =
     include_str!("../proto/concord_telemetry/v1/trace_carrier.proto");
+
+/// The text of `cause.proto`.
+pub const CAUSE_PROTO: &str = include_str!("../proto/concord_telemetry/v1/cause.proto");
 
 /// W3C trace context and baggage as the three header values, for crates that
 /// must stay free of OpenTelemetry. Each field is raw header text, unparsed.
@@ -161,5 +164,13 @@ mod tests {
             .join("concord_telemetry/v1/trace_carrier.proto")
             .is_file());
         assert!(TRACE_CARRIER_PROTO.contains("message TraceCarrier"));
+    }
+
+    #[test]
+    fn include_dir_holds_cause_proto() {
+        assert!(proto_include_dir()
+            .join("concord_telemetry/v1/cause.proto")
+            .is_file());
+        assert!(CAUSE_PROTO.contains("message Cause"));
     }
 }

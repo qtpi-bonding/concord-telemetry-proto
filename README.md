@@ -8,6 +8,8 @@ must stay free of OpenTelemetry.
 - `v1::TraceCarrier`: the prost message; `From` impls convert to and from the plain
   `TraceCarrier` at the crate root, and `v1::field` yields the optional message field
   (absent when the carrier is empty).
+- `v1::Cause`: what caused a record — a registered cause kind and the id in its
+  owner's own format.
 - `proto/concord_telemetry/v1/{principal,trace_carrier}.proto` and `proto_include_dir()`,
   for a consumer's `build.rs`.
 - `TRACEPARENT_ENV`, `BAGGAGE_ENV`, `inject_env`.
